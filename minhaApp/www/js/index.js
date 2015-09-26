@@ -37,14 +37,21 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        var button = document.querySelector('button');
+        var img    = document.getElementById('picture');
 
-        console.log('Received Event: ' + id);
+        button.addEventListener('click', function () {
+            navigator.camera.getPicture(function (imageData) {
+               img.src = 'data:image/jpeg;base64,' + imageData;
+           }, function (message) {
+                alert('Failed because: ' + message);
+            }, {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL
+            });
+        });
+
     }
 };
 
